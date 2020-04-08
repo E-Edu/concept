@@ -1,5 +1,11 @@
 # Concept
-Concept, documentation and changelogs related to E-Edu
+
+This repository contains the complete concept, news, initiatives and documentations of the E-Edu project.
+
+**Important links:**
+* [This GitHub Page](https://e-edu.github.io/concept/)
+* [The official website](https://e-edu.the-morpheus.de/)
+* [E-Edu organization on GitHub](https://github.com/E-Edu)
 
 ## Blog
 
