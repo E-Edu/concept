@@ -6,6 +6,8 @@
 
 Articles are pages explaining what we did or what we currently do.
 
+* [Redis Pub/Sub - How to scale internal service communication in the cloud](articles/redis-pub-sub.md)
+
 ## Initiatives
 
 Initiatives are pages explaining what we could do. Every developer can write initiatives and submit them to us using a merge request.
