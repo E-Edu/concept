@@ -38,7 +38,7 @@ That's the general concept of the Redis PubSub service. Now let's face new probl
 
 A single Redis PubSub instance is fast, extremely fast, but even Redis has limitations in terms of the amount of messages per second it can handle.
 
-When desinging cloud infrastructure it's very important to (almost) never limitate your system: Even if you think you won't need that much performance the next few years, what is your plan after these few years? Your infrastructure is built and deployed which means changing something is a huge task and risk for your business.
+When desinging cloud infrastructure it's very important to (almost) never limitate your ability to scale your infrastructure: Even if you think you won't need that much performance the next few years, what is your plan after these few years? Your infrastructure is built and deployed which means changing something is a huge task and risk for your business.
 
 I wish I could write something like: Redis supports clustering - solution to all our problems!<br>
 But the (current) truth is: Redis Clusters are not made for pub/sub which means we would get **linear decreasing** performance when increasing the cluster size.
