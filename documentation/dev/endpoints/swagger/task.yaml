@@ -1771,7 +1771,7 @@ paths:
     get:
       tags:
       - lecture
-      summary: Get lecture WIP
+      summary: Get lecture
       operationId: getLecture
       security:
       - JWT: [read]
@@ -1797,7 +1797,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Module'
+                $ref: '#/components/schemas/Lecture'
         '400':
           description: User Error
           content:
@@ -1881,7 +1881,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Module'
+                  $ref: '#/components/schemas/Lecture'
 
         '400':
           description: User Error
