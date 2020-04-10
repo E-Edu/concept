@@ -15,7 +15,7 @@ Here we document everything related to **new** technical things or just simple f
 
 In this section we document and describe existing and future features. You want to know how to do something? Look it up here!
 
-### [Technical](blog/technical/technical-conceptional.md)
+### [Technical](blog/technical/blog-technical.md)
 
 If you are more interested in the technical side of things, you can learn here what's new about our infrastructure, security, code guidelines or even our plans for the future.
 
