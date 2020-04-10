@@ -4,7 +4,7 @@
 
 ## Swagger Endpoint Documentation
 
-#### YAML
+### YAML
 Copy the content of these files into the [swagger editor](editor.swagger.io) to view them.
 - [User](endpoints/swagger/user.yaml) 
 - [Task](endpoints/swagger/task.yaml) 
@@ -14,7 +14,7 @@ Copy the content of these files into the [swagger editor](editor.swagger.io) to 
 [comment]: <> (swagger direct link template : https://editor.swagger.io/?url=https://raw.githubusercontent.com/E-Edu/conept/master/documentation/dev/endpoints/swagger/{{FILE_NAME_HERE}})
 ---
 
-#### Error Codes
+### Error Codes
 - [Error Codes](endpoints/markdown/errors.md)
 
 [Home](../../README.md)

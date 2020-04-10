@@ -1,26 +1,25 @@
 # Concept
 
 These Flowcharts can also be viewed by downloading [This](Concept.drawio) file and draging it into the [app.diagrams.net](https://app.diagrams.net/) website.
-
 ### Login:
-![Login](endpoints/img/Concept-Login.svg)
+![Login](img/Concept-Login.svg)
 ### Task:
-![Task](endpoints/img/Concept-Task.svg)
+![Task](img/Concept-Task.svg)
 ### Final Task:
-![Final Task](endpoints/img/Concept-Final-Task.svg)
+![Final Task](img/Concept-Final-Task.svg)
 ### Check Task:
-![Check Task](endpoints/img/Concept-Check-Task.svg)
+![Check Task](img/Concept-Check-Task.svg)
 ### Create Task:
-![Create Task](endpoints/img/Concept-Create-Task.svg)
+![Create Task](img/Concept-Create-Task.svg)
 ### Task Types:
-![Task Types](endpoints/img/Concept-Task-Types.svg)
+![Task Types](img/Concept-Task-Types.svg)
 ### Admin:
-![Admin](endpoints/img/Concept-Admin.svg)
+![Admin](img/Concept-Admin.svg)
 ### Dashboard:
-![Dashboard](endpoints/img/Concept-Dashboard.svg)
+![Dashboard](img/Concept-Dashboard.svg)
 ### Teams:
-![Teams](endpoints/img/Concept-Teams.svg)
+![Teams](img/Concept-Teams.svg)
 ### More Features:
-![More Features](endpoints/img/Concept-More-Features.svg)
+![More Features](img/Concept-More-Features.svg)
 ---
 ###### [Back](README.md)
