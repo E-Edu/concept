@@ -9,14 +9,14 @@ servers:
 tags:
 - name: task
   description: Task
-- name: task_group
-  description: Task Group
 - name: subject
   description: Subject
 - name: module
   description: Module
 - name: lecture
   description: Lecture
+- name: task_group
+  description: Task Group
 - name: solution
   description: Solution
 - name: difficulty
@@ -24,6 +24,9 @@ tags:
 - name: task_type
   description: Task Types
 paths:
+
+  # Tasks
+
   /task:
     post:
       tags:
@@ -56,11 +59,11 @@ paths:
                   description : Not Requiered
                 necessary_points:
                   type:  integer
-                task_type_display_name:
+                task_type_name_key:
                   type:  string
-                lecture_display_name:
+                lecture_name_key:
                   type:  integer
-                difficulty_display_name:
+                difficulty_name_key:
                   type:  string
       responses:
         '200':
@@ -268,15 +271,15 @@ paths:
                   type: string
                 necessary_points:
                   type:  integer
-                task_type_display_name:
+                task_type_name_key:
                   type:  string
-                subject_display_name:
+                subject_name_key:
                   type:  string
-                module_display_name:
+                module_name_key:
                   type:  string
-                lecture_display_name:
+                lecture_name_key:
                   type:  string
-                difficulty_display_name:
+                difficulty_name_key:
                   type:  string
       responses:
         '200':
@@ -484,7 +487,277 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
   
-  #TODO : Implement Task Group here
+  # Task Group
+
+  /task_group:
+    post:
+      tags:
+      - task_group
+      summary: Create a Task Group
+      operationId: createTaskGroup
+      security:
+      - JWT: [write]
+      - ServiceToken : [read, write]
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+        - name: X-ServiceToken
+          in: header
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                display_name:
+                  type: string
+                lecture_name_key:
+                  type: string
+                
+      responses:
+        '200':
+          description: Ok
+        '400':
+          description: User Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    get:
+      tags:
+      - task_group
+      summary: Get all task groups
+      operationId: getTaskGroups
+      security:
+      - JWT: [read]
+      - ServiceToken : [read, write]
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+        - name: X-ServiceToken
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TaskGroup'
+        '400':
+          description: User Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /task_group/{task_group_id}:
+    get:
+      tags:
+      - task_group
+      summary: Get task group
+      operationId: getTaskGroup
+      security:
+      - JWT: [read]
+      - ServiceToken : [read, write]
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+        - name: X-ServiceToken
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: task_group_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskGroup'
+        '400':
+          description: User Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      tags:
+      - task_group
+      summary: Delete Task Group
+      operationId: deleteTaskGroup
+      security:
+      - JWT: [write]
+      - ServiceToken : [read, write]
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+        - name: X-ServiceToken
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: task_group_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok
+        '400':
+          description: User Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      tags:
+      - task_group
+      summary: Edit Task Group
+      operationId: editTaskGroup
+      security:
+      - JWT: [write]
+      - ServiceToken : [read, write]
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+        - name: X-ServiceToken
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: task_group_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                display_name:
+                  type: string
+                lecture_name_key:
+                  type: string
+                task_ids:
+                  type: array
+                  items:
+                    type: integer
+                    example: 5
+      responses:
+        '200':
+          description: Ok
+        '400':
+          description: User Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /lecture/{lecture_name_key}/task_group:
+    get:
+      tags:
+      - task_group
+      summary: Get Task Groups from lecture
+      operationId: getTaskGroupsFromLecture
+      security:
+      - JWT: [read]
+      - ServiceToken : [read, write]
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+        - name: X-ServiceToken
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: lecture_name_key
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TaskGroup'
+
+        '400':
+          description: User Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+
+  # Solution
 
   /solution/multple_choice/:
     post:
@@ -1127,11 +1400,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/Solution'
 
-
-
-
-
-
   /solution/image/{task_id}:
     get:
       tags:
@@ -1323,6 +1591,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
+  # Subject
+
   /subject:
     post:
       tags:
@@ -1486,6 +1756,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+
+  # Module
+
   /module:
     post:
       tags:
@@ -1513,7 +1786,7 @@ paths:
                 properties:
                   name_key:
                     type: string
-                  subject_display_name:
+                  subject_name_key:
                     type: string
       responses:
         '200':
@@ -1639,7 +1912,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
-  /subject/{subject_display_name}/module:
+  /subject/{subject_name_key}/module:
     get:
       tags:
       - subject
@@ -1658,7 +1931,7 @@ paths:
           required: true
           schema:
             type: string
-        - name: subject_display_name
+        - name: subject_name_key
           in: path
           required: true
           schema:
@@ -1683,6 +1956,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+  
+  # Lecture
+
   /lecture:
     post:
       tags:
@@ -1710,7 +1986,7 @@ paths:
               properties:
                 name_key:
                   type: string
-                module_display_name:
+                module_name_key:
                   type: string
       responses:
         '200':
@@ -1849,7 +2125,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
-  /module/{module_display_name}/lecture:
+  /module/{module_name_key}/lecture:
     get:
       tags:
       - module
@@ -1868,7 +2144,7 @@ paths:
           required: true
           schema:
             type: string
-        - name: module_display_name
+        - name: module_name_key
           in: path
           required: true
           schema:
@@ -1895,6 +2171,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+  
+  # Difficulty
+
   /difficulty:
     post:
       tags:
@@ -2051,6 +2330,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'    
+  
+  # Task Type
+
   /task_type:
     post:
       tags:
@@ -2132,6 +2414,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+
   /task_type/{name_key}:
     get:
       tags:
@@ -2424,6 +2707,23 @@ components:
         difficulty_id:
           type: integer
           example: 2
+    TaskGroup:
+      type: object
+      properties:
+        lecture_id:
+          type: integer
+          example: 2
+        display_name:
+          type: string
+          example: Tolles Aufgaben Pack
+        task_group_id:
+          type: integer
+          example: 7
+        task_ids :
+          type: array
+          items :
+            type : integer
+            example : 5
     Lecture:
       type: object
       properties:
