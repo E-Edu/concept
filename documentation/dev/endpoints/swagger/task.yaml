@@ -514,10 +514,19 @@ paths:
             schema:
               type: object
               properties:
-                display_name:
+                lecture_id:
+                  type: integer
+                  example: 2
+                name_key:
                   type: string
-                lecture_name_key:
-                  type: string
+                  example: Tolles-Aufgaben-Pack
+                task_ids :
+                  type: array
+                  items :
+                    type : integer
+                    example : 5
+                difficulty_id:
+                  type: integer       
                 
       responses:
         '200':
@@ -534,51 +543,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-    get:
-      tags:
-      - task_group
-      summary: Get all task groups
-      operationId: getTaskGroups
-      security:
-      - JWT: [read]
-      - ServiceToken : [read, write]
-      parameters:
-        - name: Authorization
-          in: header
-          schema:
-            type: string
-        - name: X-ServiceToken
-          in: header
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Ok
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/TaskGroup'
-        '400':
-          description: User Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
-          description: Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
 
-  /task_group/{task_group_id}:
+  /task_group/{name_key}:
     get:
       tags:
       - task_group
-      summary: Get task group
+      summary: Get a task group
       operationId: getTaskGroup
       security:
       - JWT: [read]
@@ -593,7 +563,7 @@ paths:
           required: true
           schema:
             type: string
-        - name: task_group_id
+        - name: name_key
           in: path
           required: true
           schema:
@@ -620,7 +590,7 @@ paths:
     delete:
       tags:
       - task_group
-      summary: Delete Task Group
+      summary: Delete a Task Group
       operationId: deleteTaskGroup
       security:
       - JWT: [write]
@@ -635,7 +605,7 @@ paths:
           required: true
           schema:
             type: string
-        - name: task_group_id
+        - name: name_key
           in: path
           required: true
           schema:
@@ -655,10 +625,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-    patch:
+    put:
       tags:
       - task_group
-      summary: Edit Task Group
+      summary: Edit a Task Group
       operationId: editTaskGroup
       security:
       - JWT: [write]
@@ -673,7 +643,7 @@ paths:
           required: true
           schema:
             type: string
-        - name: task_group_id
+        - name: name_key
           in: path
           required: true
           schema:
@@ -684,18 +654,120 @@ paths:
             schema:
               type: object
               properties:
-                display_name:
+                lecture_id:
+                  type: integer
+                  example: 2
+                name_key:
                   type: string
-                lecture_name_key:
-                  type: string
-                task_ids:
+                  example: Tolles-Aufgaben-Pack
+                task_ids :
                   type: array
-                  items:
-                    type: integer
-                    example: 5
+                  items :
+                    type : integer
+                    example : 5
+                difficulty_id:
+                  type: integer
       responses:
         '200':
           description: Ok
+        '400':
+          description: User Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  
+  /task_group/{name_key}/task:
+    post:
+      tags:
+      - task_group
+      summary: Add single task to Task Group
+      operationId: addTaskToTaskGroups
+      security:
+      - JWT: [read]
+      - ServiceToken : [read, write]
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+        - name: X-ServiceToken
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: name_key
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                task_id :
+                  type: integer
+                  description: The id of the task to add to the Task Group
+      responses:
+        '200':
+          description: Ok
+
+        '400':
+          description: User Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      tags:
+      - task_group
+      summary: Remove single task from Task Group
+      operationId: removeTaskFromTaskGroups
+      security:
+      - JWT: [read]
+      - ServiceToken : [read, write]
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+        - name: X-ServiceToken
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: name_key
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                task_id :
+                  type: integer
+                  description: The id of the task to remove from the Task Group
+      responses:
+        '200':
+          description: Ok
+
         '400':
           description: User Error
           content:
@@ -2713,9 +2785,9 @@ components:
         lecture_id:
           type: integer
           example: 2
-        display_name:
+        name_key:
           type: string
-          example: Tolles Aufgaben Pack
+          example: Tolles-Aufgaben-Pack
         task_group_id:
           type: integer
           example: 7
@@ -2724,6 +2796,10 @@ components:
           items :
             type : integer
             example : 5
+        author_id:
+          type: string
+        difficulty_id:
+          type: integer
     Lecture:
       type: object
       properties:
