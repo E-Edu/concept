@@ -1,13 +1,14 @@
 openapi: '3.0.2'
 info:
   title: Report Microservice
-  version: 'v1'
+  version: 'v2'
 servers:
 - url: https://report.e-edu.the-morpheus.de
 - url: http://localhost:80
 tags:
 - name: ticket
   description: Report Microservice
+- name: support
 paths:
   /ticket:
     post:
@@ -154,8 +155,20 @@ paths:
                       type: string
                     body:
                       type: string
-                    ticket_type:
-                      type: string     
+                    report_reason:
+                      type: string
+                      enum:
+                        - TROLLING
+                        - FAULTY_TASK
+                        - SPELLING_MISTAKE
+                        - UNCLEAR
+                        - INCORECTLY_CORRECTED
+                        - DISCRIMINATING
+                        - POLITICALY_INCORRECT
+                        - BIASED
+                        - OTHER
+                    
+   
         '4XX':
           description: User Error
           content:
@@ -258,6 +271,258 @@ paths:
               properties:
                 is_troll:
                   type: boolean
+
+      responses:
+        '200':
+          description: OK
+        '4XX':
+          description: User Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '5XX':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /support:
+    post:
+      summary: Creates a new support ticket
+      tags: 
+        - support
+      security: 
+        - JWT: [write]
+        - ServiceToken: [write]
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: X-ServiceToken
+        in: header
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                body:
+                  type: string
+
+
+    
+      responses:
+        '200':
+          description: OK
+        '4XX':
+          description: User Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '5XX':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  
+  /support/{ticket_id}:
+    delete:
+      summary : Deletes a support ticket
+      tags: 
+        - support
+      security:
+        - JWT: [write]
+        - ServiceToken: [write]
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+        - name: X-ServiceToken
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: ticket_id
+          in: path
+          required: true
+          description: The ID corresponding to the ticket
+          schema:
+            type: string
+            format: guid
+            minimum: 0
+      responses:
+        '200':
+          description: OK
+        '4XX':
+          description: User Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '5XX':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    
+  
+  /support/list:
+    get:
+      summary: Returns a list of all available support tickets
+      tags: 
+        - support
+      security:
+        - JWT: [read]
+        - ServiceToken: [write]
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+        - name: X-ServiceToken
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Body contains an array of tickets
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    ticket_id:
+                      type: string
+                      format: guid
+                    task_id:
+                      type: string
+                      format: guid
+                    sender:
+                      type: string
+                    title:
+                      type: string
+                    body:
+                      type: string    
+        '4XX':
+          description: User Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '5XX':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    
+  
+  /support/{ticket_id}/edit:
+    put:
+      summary : Changes a speifc tickets title and body.
+      tags: 
+        - support
+      security:
+        - JWT: [write]
+        - ServiceToken: [write]
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+        - name: X-ServiceToken
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: ticket_id
+          in: path
+          required: true
+          description: The ID corresponding to the ticket
+          schema:  
+            type: string
+            format: guid
+            minimum: 0
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                body:
+                  type: string
+
+      responses:
+        '200':
+          description: OK
+        '4XX':
+          description: User Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '5XX':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  
+                    
+  /support/{ticket_id}/answer:
+     put:
+      summary : Answer to a support ticket
+      tags: 
+        - support
+      security:
+        - JWT: [write]
+        - ServiceToken: [write]
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+        - name: X-ServiceToken
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: ticket_id
+          in: path
+          required: true
+          description: The ID corresponding to the ticket
+          schema:  
+            type: string
+            format: guid
+            minimum: 0
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                response_title:
+                  type: string 
+                response_body:
+                  type: string
 
       responses:
         '200':
@@ -540,4 +805,4 @@ components:
           type: string
       required:
         - message_key
-        - status
+        - statust_id}​/edit
