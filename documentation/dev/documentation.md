@@ -11,8 +11,6 @@ Copy the content of these files into the [swagger editor](editor.swagger.io) to 
 - [Report](endpoints/swagger/report.yaml)
 - [Pub/Sub](endpoints/swagger/microservice_com.yaml)
 
-[comment]: <> (swagger direct link template : https://editor.swagger.io/?url=https://raw.githubusercontent.com/E-Edu/conept/master/documentation/dev/endpoints/swagger/{{FILE_NAME_HERE}})
----
 
 ### Error Codes
 - [Error Codes](endpoints/markdown/errors.md)
