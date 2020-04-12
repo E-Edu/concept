@@ -15,7 +15,7 @@ paths:
       tags:
         - user
       summary: Creates a new user
-      description: Notice that Passwords should be stored by being hashed with BCrypt.
+      description: Notice that Passwords should be stored by being hashed with Bcrypt and PBKDF2 utilising 3.000 rounds. The Salt is availible at the User Microservice.
       operationId: create_user
       security: 
       - JWT : [write]
@@ -42,6 +42,7 @@ paths:
                 password:
                   type: string
                   example: IchMagEinhörner1234
+                  format: hashed
                 first_name:
                   type: string
                   example: Hans-Peter
