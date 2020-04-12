@@ -2,6 +2,8 @@
 
 # Documentation
 
+## [Architecture](architecture/architecture)
+
 ## Swagger Endpoint Documentation
 
 ### YAML
