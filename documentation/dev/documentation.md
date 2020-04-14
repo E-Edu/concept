@@ -11,6 +11,8 @@ Copy the content of these files into the [swagger editor](editor.swagger.io) to 
 - [Report](endpoints/swagger/report.yaml)
 - [Pub/Sub](endpoints/swagger/microservice_com.yaml)
 
+###### [Experimental Swagger direct links](endpoints/wip_direct_links.md)
+
 
 ### Error Codes
 - [Error Codes](endpoints/markdown/errors.md)

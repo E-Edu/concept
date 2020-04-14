@@ -829,13 +829,13 @@ paths:
                 $ref: '#/components/schemas/Error'
 
 
-  # Solution
+  # Solution Mutliple Choice
 
-  /solution/multple_choice/:
+  /solution/multiple_choice/:
     post:
       tags:
       - solution
-      summary:  Creates a new multiple Chohice Solution
+      summary:  Creates a new multiple choice Solution
       operationId: createmultipleChoiceSolution
       security:
       - JWT: [write]
@@ -861,8 +861,7 @@ paths:
                 solution:
                   type: string
                   example: 
-                  - Lösung 1
-                  - Lösung 2
+                    Lösung 1
                 is_correct:
                   type: boolean
       responses:
@@ -873,33 +872,34 @@ paths:
               schema: 
                 type: object
                 properties: 
-                  solution: 
-                    type: string
-                  is_correct:
-                    type: boolean
-                  task_id:
+                  multiple_choice_solution_id: 
                     type: integer
                     format: int64
                     minimum: 0
+                  correct:
+                    type: boolean
+                  solution:
+                    type: string
+                    example: Lösung 1 lol
         '400':
           description: User Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Solution'
+                $ref: '#/components/schemas/Error'
         '500':
           description: Server Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Solution'
+                $ref: '#/components/schemas/Error'
 
 
-  /solution/mutiple_choice/{task_id}:
+  /solution/multiple_choice/{task_id}:
     get:
       tags:
       - solution
-      summary: Get all multiple choice soulutions from task id
+      summary: Get all multiple choice solutions from task id
       operationId: getMultipleChoiceSolutions
       security:  
       - JWT: [read]
@@ -928,6 +928,8 @@ paths:
               schema:
                 type: object
                 properties:
+                  task_id :
+                    type : integer
                   solutions:
                     type: array
                     items:
@@ -937,20 +939,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Solution'
+                $ref: '#/components/schemas/Error'
         '500':
           description: Server Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Solution'
+                $ref: '#/components/schemas/Error'
 
 
-  /solution/mutiple_choice/check:
+  /solution/multiple_choice/check:
     post:
       tags:
       - solution
-      summary: Check multiple Choice soulutions
+      summary: Check multiple choice solutions
       operationId: checkMultipleChoiceSolutions
       security:
       - JWT: [read]
@@ -980,24 +982,35 @@ paths:
       responses:
         '200':
           description: Ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  solutions:
+                    type: array
+                    items:
+                      type: boolean
+                    description : Array if solution is true or not  
+          
         '400':
           description: User Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Solution'
+                $ref: '#/components/schemas/Error'
         '500':
           description: Server Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Solution'
+                $ref: '#/components/schemas/Error'
   
-  /solution/multiple_choice/{Task_id}/{Solution}:
+  /solution/multiple_choice/{task_id}/{solution}:
     delete:
       tags:
       - solution
-      summary: Deletes a multiple Choice Solution
+      summary: Deletes a multiple choice Solution
       operationId: deleteMultipleChoiceSolutions
       security:
       - JWT: [write]
@@ -1012,12 +1025,14 @@ paths:
           required: true
           schema:
             type: string
-        - name: Task_id
+        - name: task_id
+          description: Task id of the solution
           in: path
           required: true 
           schema:
             type: integer
-        - name: Solution
+        - name: solution
+          description: Solution string not solution id.
           in: path
           required: true
           schema:
@@ -1030,24 +1045,24 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Solution'
+                $ref: '#/components/schemas/Error'
         '500':
           description: Server Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Solution'
-
-
-
-  /solution/freestyle/{task_id}:
-    get:
+                $ref: '#/components/schemas/Error'
+  
+  # Solution Freestyle
+  
+  /solution/freestyle:
+    post:
       tags:
       - solution
-      summary: Get all freestyle soulutions from task id
-      operationId: getFreestyleSolution
-      security:  
-      - JWT: [read]
+      summary: Create a freestyle sample solution
+      operationId: createFreestyleSolution
+      security:
+      - JWT: [write]
       - ServiceToken : [read, write]
       parameters:
         - name: Authorization
@@ -1059,14 +1074,11 @@ paths:
           required: true
           schema:
             type: string
-        - name: task_id
-          in: path
-          required: true
-          description: The unique task id
-          schema:
-            type: integer
-            format: int64
-            minimum: 0
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SampleSolution'
       responses:
         '200':
           description: Ok
@@ -1075,20 +1087,18 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Solution'
+                $ref: '#/components/schemas/Error'
         '500':
           description: Server Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Solution'
-
-
+                $ref: '#/components/schemas/Error'
   /solution/freestyle/check:
     post:
       tags:
       - solution
-      summary: Check freestyle soulution
+      summary: Check freestyle solution
       operationId: checkFreestyleSolution
       security:
       - JWT: [write]
@@ -1111,29 +1121,75 @@ paths:
               properties:
                 task_id:
                   type: integer
-                user_solution:
+                solution:
                   type: string
       responses:
         '200':
           description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SampleSolution'
+
         '400':
           description: User Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Solution'
+                $ref: '#/components/schemas/Error'
         '500':
           description: Server Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Solution'
+                $ref: '#/components/schemas/Error'
+  /solution/freestyle/{task_id}:
+    delete:
+      tags:
+      - solution
+      summary: Delte freestyle solution
+      operationId: deleteFreestyleSolution
+      security:
+      - JWT: [write]
+      - ServiceToken : [read, write]
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+        - name: X-ServiceToken
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: task_id
+          in: path
+          required: true
+          schema:
+            type: string
+
+      responses:
+        '200':
+          description: Ok
+
+        '400':
+          description: User Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 
   /solution/equations/{task_id}:
     get:
       tags:
       - solution
-      summary: Get all equations soulution from task id
+      summary: Get all equations solution from task id
       operationId: getEquationsSolution
       security:  
       - JWT: [read]
@@ -1164,21 +1220,21 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Solution'
+                $ref: '#/components/schemas/Error'
 
         '500':
           description: Server Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Solution'
+                $ref: '#/components/schemas/Error'
 
 
   /solution/equations/check:
     post:
       tags:
       - solution
-      summary: Check equations soulution
+      summary: Check equations solution
       operationId: checkEquationSolution
       security:
       - JWT: [write]
@@ -1211,13 +1267,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Solution'
+                $ref: '#/components/schemas/Error'
         '500':
           description: Server Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Solution'
+                $ref: '#/components/schemas/Error'
   
   /solution/wordsalad/:
     post:
@@ -1266,20 +1322,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Solution'
+                $ref: '#/components/schemas/Error'
         '500':
           description: Server Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Solution'
+                $ref: '#/components/schemas/Error'
 
 
   /solution/wordsalad/{task_id}:
     get:
       tags:
       - solution
-      summary: Get all wordsalad soulution from task id
+      summary: Get all wordsalad solution from task id
       operationId: getWordsaladSolution
       security:  
       - JWT: [read]
@@ -1317,13 +1373,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Solution'
+                $ref: '#/components/schemas/Error'
         '500':
           description: Server Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Solution'
+                $ref: '#/components/schemas/Error'
       
       
     put:
@@ -1376,13 +1432,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Solution'
+                $ref: '#/components/schemas/Error'
         '500':
           description: Server Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Solution'
+                $ref: '#/components/schemas/Error'
 
 
     delete:
@@ -1416,13 +1472,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Solution'
+                $ref: '#/components/schemas/Error'
         '500':
           description: Server Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Solution'
+                $ref: '#/components/schemas/Error'
 
 
 
@@ -1431,7 +1487,7 @@ paths:
     post:
       tags:
       - solution
-      summary: Check wordsalad soulution
+      summary: Check wordsalad solution
       operationId: checkWordsaladSolution
       security:
       - JWT: [write]
@@ -1464,19 +1520,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Solution'
+                $ref: '#/components/schemas/Error'
         '500':
           description: Server Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Solution'
+                $ref: '#/components/schemas/Error'
 
   /solution/image/{task_id}:
     get:
       tags:
       - solution
-      summary: Get all image soulution from task id
+      summary: Get all image solution from task id
       operationId: getImageSolution
       security:  
       - JWT: [read]
@@ -1518,7 +1574,7 @@ paths:
     post:
       tags:
       - solution
-      summary: Check image soulution
+      summary: Check image solution
       security:
       - JWT: [write]
       - ServiceToken : [read, write]
@@ -1538,7 +1594,7 @@ paths:
             schema:
               type: object
               properties:
-                user_solution:
+                url:
                   type: string
                   example:
                     LINK_TO_IMAGE
@@ -1563,7 +1619,7 @@ paths:
     get:
       tags:
       - solution
-      summary: Get all topic connection soulution from task id
+      summary: Get all topic connection solution from task id
       operationId: getTopicConnectionSolution
       security:  
       - JWT: [read]
@@ -1618,7 +1674,7 @@ paths:
     post:
       tags:
       - solution
-      summary: check topic connection soulution
+      summary: check topic connection solution
       operationId: checkTopicConnectionSolution
       security:
       - JWT: [write]
@@ -2852,14 +2908,12 @@ components:
           type: string
           example: Schwer
     
-    Solution:
+    SampleSolution:
       type: object
       properties:
-        error:
+        solution:
           type: string
-          example: FORBIDDEN
-        extra:
-          type: string
+          description: Sample solution
 
     Error:
       oneOf:
