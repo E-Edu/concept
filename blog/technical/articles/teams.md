@@ -31,7 +31,8 @@ The Frontend Team is a Development Team that most of the time Codes in JavaScrip
 ```
 Languages       => Javascript, HTML, SCSS
 Build-Tools     => NodeJS, NPM
-Framework       => React, NodeJS
+Framework       => NodeJS
+Libraries       => React
 Task            => Build a Visual Interface with Backend Integration
 ```
 
