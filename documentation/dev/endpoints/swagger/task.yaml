@@ -1527,7 +1527,63 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-
+  /solution/image/:
+    post:
+      tags:
+      - solution
+      summary: Create a image solution
+      operationId: createImageSolution
+      security:
+      - JWT: [write]
+      - ServiceToken: [read,write]
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+        - name: X-ServiceToken
+          in: header
+          required: true
+          schema:
+            type: string 
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                task_id:
+                  type: integer
+                solution:
+                  type: string
+                  example: LINK_TO_IMAGE
+                  format: URL
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  task_id:
+                    type: integer
+                  solution:
+                    type: string
+                    example: LINK_TO_IMAGE
+                    format: URL
+        '400':
+          description: User Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
   /solution/image/{task_id}:
     get:
       tags:
@@ -1570,6 +1626,49 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+    delete:
+      tags:
+      - solution
+      summary: Deletes a Image Solution
+      operationId: deleteImmageSolution
+      security:  
+      - JWT: [write]
+      - ServiceToken : [read, write]  
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+        - name: X-ServiceToken
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: task_id
+          in: path
+          required: true
+          description: The unique task id
+          schema:
+            type: integer
+            format: int64
+            minimum: 0
+      responses:
+        '200':
+          description: Ok
+        '400':
+          description: User Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+
   /solution/image/check:
     post:
       tags:
@@ -1594,6 +1693,8 @@ paths:
             schema:
               type: object
               properties:
+                task_id:
+                  type: integer
                 url:
                   type: string
                   example:
@@ -1613,6 +1714,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+
+
 
 
   /solution/topic_connection/{task_id}:
@@ -2911,9 +3014,12 @@ components:
     SampleSolution:
       type: object
       properties:
+        task_id:
+          type: integer
         solution:
           type: string
           description: Sample solution
+        
 
     Error:
       oneOf:
