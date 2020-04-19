@@ -1,0 +1,4 @@
+content:
+  application/json:
+    schema:
+      {{SCHEMA, SCHEMA, REQUIRED}}
