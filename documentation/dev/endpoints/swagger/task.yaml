@@ -558,6 +558,70 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+    put:
+      tags:
+      - task_group
+      summary: Edit a Task Group
+      operationId: editTaskGroup
+      security:
+      - JWT:
+        - write
+      - ServiceToken:
+        - read
+        - write
+      parameters:
+      - name: Authorization
+        in: header
+        schema:
+          type: string
+      - name: X-ServiceToken
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: name_key
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                task_group_id:
+                  type: integer
+                  example: 7
+                  description: The task group id to modify
+                lecture_id:
+                  type: integer
+                  example: 2
+                name_key:
+                  type: string
+                  example: Tolles-Aufgaben-Pack
+                task_ids:
+                  type: array
+                  items:
+                    type: integer
+                    example: 5
+                difficulty_id:
+                  type: integer
+      responses:
+        '200':
+          description: Ok
+        '400':
+          description: User Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
   /task_group/{name_key}:
     get:
       tags:
@@ -645,67 +709,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-    put:
-      tags:
-      - task_group
-      summary: Edit a Task Group
-      operationId: editTaskGroup
-      security:
-      - JWT:
-        - write
-      - ServiceToken:
-        - read
-        - write
-      parameters:
-      - name: Authorization
-        in: header
-        schema:
-          type: string
-      - name: X-ServiceToken
-        in: header
-        required: true
-        schema:
-          type: string
-      - name: name_key
-        in: path
-        required: true
-        schema:
-          type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                lecture_id:
-                  type: integer
-                  example: 2
-                name_key:
-                  type: string
-                  example: Tolles-Aufgaben-Pack
-                task_ids:
-                  type: array
-                  items:
-                    type: integer
-                    example: 5
-                difficulty_id:
-                  type: integer
-      responses:
-        '200':
-          description: Ok
-        '400':
-          description: User Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
-          description: Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-  /task_group/{name_key}/task:
+  /task_group/task:
     post:
       tags:
       - task_group
@@ -727,17 +731,16 @@ paths:
         required: true
         schema:
           type: string
-      - name: name_key
-        in: path
-        required: true
-        schema:
-          type: string
       requestBody:
         content:
           application/json:
             schema:
               type: object
               properties:
+                task_group_id:
+                  type: integer
+                  example: 7
+                  description: The task group id to add the task to
                 task_id:
                   type: integer
                   description: The id of the task to add to the Task Group
@@ -756,6 +759,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+  /task_group/{name_key}/task/{task_id}:
     delete:
       tags:
       - task_group
@@ -780,17 +784,15 @@ paths:
       - name: name_key
         in: path
         required: true
+        description: The name key of the task group
         schema:
           type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                task_id:
-                  type: integer
-                  description: The id of the task to remove from the Task Group
+      - name: task_id
+        in: path
+        required: true
+        description: The id of the task to remove from the task group
+        schema:
+          type: integer
       responses:
         '200':
           description: Ok
@@ -944,7 +946,7 @@ paths:
         in: path
         required: true
         schema:
-          type: string
+          type: integer
       responses:
         '200':
           description: Ok
@@ -974,7 +976,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /solution/multiple_choice/all/{task_id}:
+  /solution/multiple_choice/{task_id}/all:
     get:
       tags:
       - solution
@@ -992,12 +994,17 @@ paths:
       - name: Authorization
         in: header
         schema:
-          type: STRING
+          type: string
       - name: X-ServiceToken
         in: header
         required: true
         schema:
           type: string
+      - name: task_id
+        in: path
+        required: true
+        schema:
+          type: integer
       responses:
         '200':
           description: Ok
@@ -1017,7 +1024,6 @@ paths:
                           type: string
                         correct:
                           type: boolean
-
   /solution/multiple_choice/check:
     post:
       tags:
@@ -1055,6 +1061,7 @@ paths:
                         type: integer
                       correct:
                         type: boolean
+      responses:
         '200':
           description: Ok
           content:
@@ -1242,98 +1249,6 @@ paths:
         required: true
         schema:
           type: string
-      responses:
-        '200':
-          description: Ok
-        '400':
-          description: User Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
-          description: Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-  /solution/equations/{task_id}:
-    get:
-      tags:
-      - solution
-      summary: Get all equations solution from task id
-      operationId: getEquationsSolution
-      security:
-      - JWT:
-        - read
-      - ServiceToken:
-        - read
-        - write
-      parameters:
-      - name: Authorization
-        in: header
-        schema:
-          type: string
-      - name: X-ServiceToken
-        in: header
-        required: true
-        schema:
-          type: string
-      - name: task_id
-        in: path
-        required: true
-        description: The unique task id
-        schema:
-          type: integer
-          format: int64
-          minimum: 0
-      responses:
-        '200':
-          description: Ok
-        '400':
-          description: User Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
-          description: Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-  /solution/equations/check:
-    post:
-      tags:
-      - solution
-      summary: Check equations solution
-      operationId: checkEquationSolution
-      security:
-      - JWT:
-        - write
-      - ServiceToken:
-        - read
-        - write
-      parameters:
-      - name: Authorization
-        in: header
-        schema:
-          type: string
-      - name: X-ServiceToken
-        in: header
-        required: true
-        schema:
-          type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                task_id:
-                  type: integer
-                user_solution:
-                  type: string
       responses:
         '200':
           description: Ok
@@ -1805,6 +1720,69 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+  /solution/topic_connection:
+    post:
+      tags:
+      - solution
+      summary: Creates a new topic connection solution
+      operationId: createTopicConnectionSolution
+      security:
+      - JWT:
+        - read
+        - write
+      - ServiceToken:
+        - read
+        - write
+      parameters:
+      - name: Authorization
+        in: header
+        schema:
+          type: string
+      - name: X-ServiceToken
+        in: header
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                task_id:
+                  type: integer
+                point_a:
+                  type: string
+                  description: Name of connection point a. Can not be empty
+                point_b:
+                  type: string
+                  description: Name of connection point b. Can not be empty
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  topic_connection_solution_id:
+                    type: integer
+                  point_a:
+                    type: string
+                  point_b:
+                    type: string
+        400:
+          description: User Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
   /solution/topic_connection/{task_id}:
     get:
       tags:
@@ -1843,14 +1821,11 @@ paths:
               schema:
                 type: object
                 properties:
-                  solutuions:
+                  points:
                     type: array
                     items:
-                      type: object
-                      additionalProperties:
-                        type: string
-                      example:
-                        Connection Point a: Connection Point b
+                      type: string
+                      description: String of a connection point in random order
         '400':
           description: User Error
           content:
@@ -1863,6 +1838,57 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+  /solution/topic_connection/{task_id}/all:
+    get:
+      tags:
+      - solution
+      summary: Same as /solution/multiple_choice/{task_id}, but returns more data.
+        This route can only be used by teachers.
+      operationId: getAllTopicConnectionSolutionsExpanded
+      security:
+      - JWT:
+        - read
+        - write
+      - ServiceToken:
+        - read
+        - write
+      parameters:
+      - name: Authorization
+        in: header
+        schema:
+          type: string
+      - name: X-ServiceToken
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: task_id
+        in: path
+        required: true
+        description: The unique task id
+        schema:
+          type: integer
+          format: int64
+          minimum: 0
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  solutions:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        topic_connection_solution_id:
+                          type: integer
+                        point_a:
+                          type: string
+                        point_b:
+                          type: string
   /solution/topic_connection/check:
     post:
       tags:
@@ -1891,14 +1917,100 @@ paths:
             schema:
               type: object
               properties:
-                user_solutuions:
+                task_id:
+                  type: integer
+                connected_points:
                   type: array
                   items:
                     type: object
-                    additionalProperties:
-                      type: string
-                    example:
-                      Connection Point a: Connection Point b
+                    properties:
+                      point_a:
+                        type: string
+                      point_b:
+                        type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  correct:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        topic_connection_solution_id:
+                          type: integer
+                        point_a:
+                          type: string
+                        point_b:
+                          type: string
+                  wrong:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        topic_connection_solution_id:
+                          type: integer
+                        point_a:
+                          type: string
+                        point_b:
+                          type: string
+                  missing:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        topic_connection_solution_id:
+                          type: integer
+                        point_a:
+                          type: string
+                        point_b:
+                          type: string
+        '400':
+          description: User Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /solution/topic_connection/{topic_connection_solution_id}:
+    delete:
+      tags:
+      - solution
+      summary: deletes a topic connection solution
+      operationId: deleteTopicConnectionSolution
+      security:
+      - JWT:
+        - read
+        - write
+      - ServiceToken:
+        - read
+        - write
+      parameters:
+      - name: Authorization
+        in: header
+        schema:
+          type: string
+      - name: X-ServiceToken
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: topic_connection_solution_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+          minimum: 0
       responses:
         '200':
           description: Ok
@@ -1914,6 +2026,213 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+  /solution/simple_equation:
+    post:
+      tags:
+      - solution
+      summary: Creates a simple equation solution
+      operationId: createSimpleEquationSolution
+      security:
+      - JWT:
+        - read
+        - write
+      - ServiceToken:
+        - read
+        - write
+      parameters:
+      - name: Authorization
+        in: header
+        schema:
+          type: string
+      - name: X-ServiceToken
+        in: header
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                taks_id:
+                  type: integer
+                result:
+                  type: string
+                steps:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                  steps:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        simple_equation_solution_id:
+                          type: integer
+                        step:
+                          type: string
+    put:
+      tags:
+      - solution
+      summary: Updates a simple equation
+      operationId: updateSimpleEquationSolution
+      security:
+      - JWT:
+        - read
+        - write
+      - ServiceToken:
+        - read
+        - write
+      parameters:
+      - name: Authorization
+        in: header
+        schema:
+          type: string
+      - name: X-ServiceToken
+        in: header
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                task_id:
+                  type: integer
+                result:
+                  type: string
+                steps:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      simple_equation_solution_id:
+                        type: integer
+                        description: If you want to create a new step at the end just
+                          increment the last step id by one. If you want to change
+                          the order of the steps you can change the simple equation
+                          solution ids of all the steps to do so.
+                      step:
+                        type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                  steps:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        simple_equation_solution_id:
+                          type: integer
+                        step:
+                          type: string
+  /solution/simple_equation/check:
+    post:
+      tags:
+      - solution
+      summary: check a simple equation solution
+      operationId: checkSimpleEquationSolution
+      security:
+      - JWT:
+        - read
+        - write
+      - ServiceToken:
+        - read
+        - write
+      parameters:
+      - name: Authorization
+        in: header
+        schema:
+          type: string
+      - name: X-ServiceToken
+        in: header
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                task_id:
+                  type: integer
+                result:
+                  type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  correct:
+                    type: boolean
+                  result:
+                    type: string
+                  steps:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        simple_equation_solution_id:
+                          type: integer
+                        step:
+                          type: string
+  /solution/simple_equation/{task_id}:
+    delete:
+      tags:
+      - solution
+      summary: deletes a simple_equation solution
+      operationId: deleteSimpleEquationSolution
+      security:
+      - JWT:
+        - read
+        - write
+      - ServiceToken:
+        - read
+        - write
+      parameters:
+      - name: Authorization
+        in: header
+        schema:
+          type: string
+      - name: X-ServiceToken
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: task_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+          minimum: 0
+      responses:
+        '200':
+          description: Ok
   /subject:
     post:
       tags:

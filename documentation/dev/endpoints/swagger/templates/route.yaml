@@ -11,7 +11,7 @@
       - name: Authorization
         in: header
         schema:
-          type: STRING
+          type: string
       - name: X-ServiceToken
         in: header
         required: true
