@@ -579,11 +579,6 @@ paths:
         required: true
         schema:
           type: string
-      - name: name_key
-        in: path
-        required: true
-        schema:
-          type: string
       requestBody:
         content:
           application/json:
@@ -622,7 +617,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /task_group/{name_key}:
+  /task_group/{task_group_id}:
     get:
       tags:
       - task_group
@@ -644,7 +639,7 @@ paths:
         required: true
         schema:
           type: string
-      - name: name_key
+      - name: task_group_id
         in: path
         required: true
         schema:
@@ -689,7 +684,7 @@ paths:
         required: true
         schema:
           type: string
-      - name: name_key
+      - name: task_group_id
         in: path
         required: true
         schema:
@@ -759,7 +754,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /task_group/{name_key}/task/{task_id}:
+  /task_group/{task_group_id}/task/{task_id}:
     delete:
       tags:
       - task_group
@@ -781,10 +776,10 @@ paths:
         required: true
         schema:
           type: string
-      - name: name_key
+      - name: task_group_id
         in: path
         required: true
-        description: The name key of the task group
+        description: The id of the task group
         schema:
           type: string
       - name: task_id
