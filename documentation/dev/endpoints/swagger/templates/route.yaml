@@ -5,7 +5,7 @@
     summary: {{SUMMARY, STRING, REQUIRED}}
     operationId: {{OPERATION_ID, STRING, REQUIRED}}
     security:
-    - JWT: [read, write]
+    - JWT: {{JWT_ACCESS, CHOOSE_ANY_LIST<STRING>(read|write), REQUIRED}}
     - ServiceToken : [read, write]
     parameters:
       - name: Authorization
