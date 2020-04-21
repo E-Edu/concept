@@ -2,6 +2,10 @@
 
 # Documentation
 
+## PubSub Inter-Microservice Communication Documnentation
+
+[This](endpoints/markdown/pubsub.md) describes the PubSub Protokoll
+
 ## Swagger Endpoint Documentation
 
 ### YAML
