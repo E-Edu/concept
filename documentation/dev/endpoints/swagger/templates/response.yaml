@@ -1,0 +1,3 @@
+'{{STATUS_CODE, INTEGER, REQUIRED}}':
+  description: {{DESCRIPTION, STRING, REQUIRED}}
+  {{CONTENT, OBJECT, OPTIONAL, SINGLE, templates/content.yaml}}

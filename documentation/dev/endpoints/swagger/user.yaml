@@ -15,7 +15,7 @@ paths:
       tags:
         - user
       summary: Creates a new user
-      description: Notice that Passwords should be stored by being hashed with BCrypt.
+      description: Notice that Passwords should be stored by being hashed with Bcrypt and PBKDF2 utilising 3.000 rounds. The Salt is availible at the User Microservice.
       operationId: create_user
       security: 
       - JWT : [write]
@@ -39,9 +39,10 @@ paths:
                 email:
                   type: string
                   example: hans.peter.lustig@gmail.com
-                password:
+                password_hash:
                   type: string
                   example: IchMagEinhörner1234
+                  format: hashed
                 first_name:
                   type: string
                   example: Hans-Peter
@@ -57,7 +58,9 @@ paths:
               - last_name
       responses:
         201:
-          description: After processing this request a email will be dispatched to the users email address, containing a link for verifying their account structured in the following way **https://DOMAIN.TLD/verify?token=$TOKEN**. In case the teacher token isn't *null* and valid the teacher is instantly verified and marked as teacher.
+          description: After processing this request an email will be dispatched to the users email address, containing a link for verifying their account structured in the following way **https://DOMAIN.TLD/verify?token=$TOKEN**. In case the teacher token isn't *null* and valid the teacher is instantly verified and marked as teacher.
+
+
         400:
           description: Returns *USER_ALREADY_REGISTERED* as error string
           content:
@@ -223,7 +226,7 @@ paths:
         - ServiceToken : [read, write]
       summary: Verifies an email token
       parameters:
-        - name: Authorization
+        - name: X-ServiceToken
           in: header
           required: false
           schema:
@@ -309,9 +312,9 @@ paths:
       security:
         - ServiceToken : [read, write]
       parameters:
-        - name: Authorization
+        - name: X-ServiceToken
           in: header
-          required: false
+          required: true
           schema:
             type: string
       summary: Used to login a user
@@ -329,11 +332,15 @@ paths:
                   type: string
       responses:
         200:
-          description: Oka
+          description: Oke
           content:
             application/json:
               schema: 
-                $ref: '#/components/schemas/Error'
+                type: object
+                properties:
+                  session_token:
+                    type: string
+                    
         400:
           description: Returns *INVALID_LOGIN* as error string
           content:

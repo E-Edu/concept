@@ -1,0 +1,2 @@
+requestBody:
+  {{CONTENT, OBJECT, REQUIRED, SINGLE, templates/content.yaml}}

@@ -1,0 +1,22 @@
+/{{ROUTE_PATH, STRING, REQUIRED}}:
+  {{HTML_REQUEST_TYPE, STRING, REQUIRED}}:
+    tags:
+    - {{CATORGY, STRING, REQUIRED}}
+    summary: {{SUMMARY, STRING, REQUIRED}}
+    operationId: {{OPERATION_ID, STRING, REQUIRED}}
+    security:
+    - JWT: {{JWT_ACCESS, CHOOSE_ANY_LIST<STRING>(read|write), REQUIRED}}
+    - ServiceToken : [read, write]
+    parameters:
+      - name: Authorization
+        in: header
+        schema:
+          type: string
+      - name: X-ServiceToken
+        in: header
+        required: true
+        schema:
+          type: string
+    {{REQUEST_BODY, OBJECT, OPTIONAL, SINGLE, templates/request_body.yaml}}
+    responses:
+      {{RESPONSE, OBJECT, REQUIRED, ONE_OR_MORE, templates/response.yaml}}
