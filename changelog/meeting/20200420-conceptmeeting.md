@@ -71,7 +71,7 @@
 - Topic
   - microservice.topic.extra.extra2.extraN
 - Example
-  - user.user.ban
+  - report.user.ban
     - userId
     - reason (string)
     - scopes // see #5 -> JWT
@@ -124,12 +124,12 @@
     - task.lectureGroup.read.all
     - task.task.read
   - admin
-    - user.user.read+write+delte.all+beta
-    - task.subject.read+write+delte.all+beta
-    - task.module.read+write+delte.all+beta
-    - task.lecture.read+write+delte.all+beta
-    - task.lectureGroup.read+write+delte.all+beta
-    - task.task.read+write+delte.all+beta
+    - user.user.read+write+delete.all+beta
+    - task.subject.read+write+delete.all+beta
+    - task.module.read+write+delete.all+beta
+    - task.lecture.read+write+delete.all+beta
+    - task.lectureGroup.read+write+delete.all+beta
+    - task.task.read+write+delete.all+beta
 
 ## 9. DSGVO
 
