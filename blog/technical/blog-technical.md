@@ -7,6 +7,7 @@
 Articles are pages explaining what we did or what we currently do.
 
 * [Redis Pub/Sub - How to scale internal service communication in the cloud](articles/redis-pub-sub.md)
+* [Organization - What Teams do we have and what are they doing ?](articles/teams.md)
 
 ## Initiatives
 
