@@ -7,7 +7,7 @@
 ## Swagger Endpoint Documentation
 
 ### YAML
-Copy the content of these files into the [swagger editor](editor.swagger.io) to view them.
+Copy the content of these files into the [swagger editor](https://editor.swagger.io) to view them.
 - [User](endpoints/swagger/user.yaml) 
 - [Task](endpoints/swagger/task.yaml) 
 - [Report](endpoints/swagger/report.yaml)
