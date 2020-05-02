@@ -3054,8 +3054,10 @@ paths:
               properties:
                 name_key:
                   type: string
+                  example: lecturename
                 module_name_key:
                   type: string
+                  example: squares
       responses:
         '200':
           description: Ok
@@ -3098,9 +3100,12 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Lecture'
+                type: object
+                properties:
+                  lectures:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Lecture'
         '400':
           description: User Error
           content:
@@ -3117,8 +3122,8 @@ paths:
     get:
       tags:
       - lecture
-      summary: Get lecture
-      operationId: getLecture
+      summary: Get lecture by name_key
+      operationId: getLecturebyname_key
       security:
       - JWT:
         - read
@@ -3162,8 +3167,8 @@ paths:
     delete:
       tags:
       - lecture
-      summary: Delete Lecture
-      operationId: deleteLecture
+      summary: Delete Lecture by name_key
+      operationId: deleteLecturebyname_key
       security:
       - JWT:
         - write
@@ -3185,6 +3190,95 @@ paths:
         required: true
         schema:
           type: string
+      responses:
+        '200':
+          description: Ok
+        '400':
+          description: User Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /lecture/{lecture_id}:
+    get:
+      tags:
+      - lecture
+      summary: Get lecture by id
+      operationId: getLecturebyid
+      security:
+      - JWT:
+        - read
+      - ServiceToken:
+        - read
+        - write
+      parameters:
+      - name: Authorization
+        in: header
+        schema:
+          type: string
+      - name: X-ServiceToken
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: lecture_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          example: 1
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lecture'
+        '400':
+          description: User Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      tags:
+      - lecture
+      summary: Delete Lecture by id
+      operationId: deleteLecturebyid
+      security:
+      - JWT:
+        - write
+      - ServiceToken:
+        - read
+        - write
+      parameters:
+      - name: Authorization
+        in: header
+        schema:
+          type: string
+      - name: X-ServiceToken
+        in: header
+        required: true
+        schema:
+          type: string
+      - name: lecture_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          example: 1
       responses:
         '200':
           description: Ok
