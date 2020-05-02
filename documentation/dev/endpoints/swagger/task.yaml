@@ -3058,9 +3058,29 @@ paths:
                 module_name_key:
                   type: string
                   example: squares
+                module_id:
+                  type: integer
+                  example: 1
       responses:
         '200':
           description: Ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  lecture_id:
+                    type: integer
+                    example: 1
+                  name_key:
+                    type: string
+                    example: lecturename
+                  module_name_key:
+                    type: string
+                    example: squares
+                  module_id:
+                    type: integer
+                    example: 1
         '400':
           description: User Error
           content:
