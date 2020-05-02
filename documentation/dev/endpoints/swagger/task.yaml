@@ -528,7 +528,7 @@ paths:
         schema:
           type: string
       - name: user_id
-        in: header
+        in: path
         required: true
         schema:
           type: string
