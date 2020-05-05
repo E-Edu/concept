@@ -586,7 +586,7 @@ paths:
               properties:
                 lecture_id:
                   type: integer
-                  example: 2
+                  example: 1
                 name_key:
                   type: string
                   example: Tolles-Aufgaben-Pack
@@ -594,12 +594,35 @@ paths:
                   type: array
                   items:
                     type: integer
-                    example: 5
+                    example: 1
                 difficulty_id:
                   type: integer
+                  example: 1
       responses:
         '200':
           description: Ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  task_group_id:
+                    type: integer
+                    example: 1
+                  lecture_id:
+                    type: integer
+                    example: 1
+                  name_key:
+                    type: string
+                    example: Tolles-Aufgaben-Pack
+                  task_ids:
+                    type: array
+                    items:
+                      type: integer
+                      example: 1
+                  difficulty_id:
+                    type: integer
+                    example: 1
         '400':
           description: User Error
           content:
@@ -641,11 +664,11 @@ paths:
               properties:
                 task_group_id:
                   type: integer
-                  example: 7
+                  example: 1
                   description: The task group id to modify
                 lecture_id:
                   type: integer
-                  example: 2
+                  example: 1
                 name_key:
                   type: string
                   example: Tolles-Aufgaben-Pack
@@ -653,12 +676,32 @@ paths:
                   type: array
                   items:
                     type: integer
-                    example: 5
+                    example: 1
                 difficulty_id:
                   type: integer
+                  example: 1
       responses:
         '200':
           description: Ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  lecture_id:
+                    type: integer
+                    example: 1
+                  name_key:
+                    type: string
+                    example: Tolles-Aufgaben-Pack
+                  task_ids:
+                    type: array
+                    items:
+                      type: integer
+                      example: 1
+                  difficulty_id:
+                    type: integer
+                    example: 1
         '400':
           description: User Error
           content:
@@ -744,6 +787,7 @@ paths:
         required: true
         schema:
           type: string
+          example: 0b870676-1a01-47aa-8402-859fb9806238
       responses:
         '200':
           description: Ok
@@ -794,7 +838,8 @@ paths:
         in: path
         required: true
         schema:
-          type: string
+          type: integer
+          example: 1
       responses:
         '200':
           description: Ok
@@ -840,6 +885,7 @@ paths:
         required: true
         schema:
           type: string
+          example: 1
       responses:
         '200':
           description: Ok
@@ -885,14 +931,28 @@ paths:
               properties:
                 task_group_id:
                   type: integer
-                  example: 7
+                  example: 1
                   description: The task group id to add the task to
                 task_id:
                   type: integer
                   description: The id of the task to add to the Task Group
+                  example: 1
       responses:
         '200':
           description: Ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  task_group_id:
+                    type: integer
+                    example: 1
+                    description: The task group id to add the task to
+                  task_id:
+                    type: integer
+                    description: The id of the task to add to the Task Group
+                    example: 1
         '400':
           description: User Error
           content:
@@ -932,13 +992,15 @@ paths:
         required: true
         description: The id of the task group
         schema:
-          type: string
+          type: integer
+          example: 1
       - name: task_id
         in: path
         required: true
         description: The id of the task to remove from the task group
         schema:
           type: integer
+          example: 1
       responses:
         '200':
           description: Ok
@@ -987,9 +1049,12 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/TaskGroup'
+                type: object
+                properties:
+                  task_Groups:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/TaskGroup'
         '400':
           description: User Error
           content:
@@ -1032,11 +1097,13 @@ paths:
               properties:
                 task_id:
                   type: integer
+                  example: 1
                 solution:
                   type: string
                   example: "L\xF6sung 1"
                 is_correct:
                   type: boolean
+                  example: 1
       responses:
         200:
           description: Ok
@@ -1047,10 +1114,11 @@ paths:
                 properties:
                   multiple_choice_solution_id:
                     type: integer
-                    format: int64
                     minimum: 0
+                    example: 1
                   correct:
                     type: boolean
+                    example: true
                   solution:
                     type: string
                     example: "L\xF6sung 1 lol"
@@ -1093,6 +1161,7 @@ paths:
         required: true
         schema:
           type: integer
+          example: 1
       responses:
         '200':
           description: Ok
@@ -1108,8 +1177,10 @@ paths:
                       properties:
                         multiple_choice_solution_id:
                           type: integer
+                          example: 1
                         solution:
                           type: string
+                          example: "L\xF6sung 1 lol"
         '400':
           description: User Error
           content:
@@ -1151,6 +1222,7 @@ paths:
         required: true
         schema:
           type: integer
+          example: 1
       responses:
         '200':
           description: Ok
@@ -1166,10 +1238,13 @@ paths:
                       properties:
                         multiple_choice_solution_id:
                           type: integer
+                          example: 1
                         solution:
                           type: string
+                          example: "L\xF6sung 1 lol"
                         correct:
                           type: boolean
+                          example: true
   /solution/multiple_choice/check:
     post:
       tags:
@@ -1205,8 +1280,10 @@ paths:
                     properties:
                       multiple_choice_solution_id:
                         type: integer
+                        example: 1
                       correct:
                         type: boolean
+                        example: true
       responses:
         '200':
           description: Ok
@@ -2860,6 +2937,7 @@ paths:
         required: true
         schema:
           type: integer
+          example: 1
       responses:
         '200':
           description: Ok
@@ -3054,10 +3132,10 @@ paths:
               properties:
                 name_key:
                   type: string
-                  example: lecturename
+                  example: squares
                 module_name_key:
                   type: string
-                  example: squares
+                  example: geometry
                 module_id:
                   type: integer
                   example: 1
@@ -3074,10 +3152,10 @@ paths:
                     example: 1
                   name_key:
                     type: string
-                    example: lecturename
+                    example: squares
                   module_name_key:
                     type: string
-                    example: squares
+                    example: geometry
                   module_id:
                     type: integer
                     example: 1
@@ -3165,6 +3243,7 @@ paths:
         required: true
         schema:
           type: string
+          example: squares
       responses:
         '200':
           description: Ok
@@ -3210,6 +3289,7 @@ paths:
         required: true
         schema:
           type: string
+          example: squares
       responses:
         '200':
           description: Ok
@@ -3341,6 +3421,7 @@ paths:
         required: true
         schema:
           type: string
+          example: geometry
       responses:
         '200':
           description: Ok
@@ -3392,6 +3473,7 @@ paths:
         required: true
         schema:
           type: integer
+          example: 1
       responses:
         '200':
           description: Ok
@@ -3547,6 +3629,7 @@ paths:
         required: true
         schema:
           type: string
+          example: easy
       responses:
         '200':
           description: Ok
@@ -3593,6 +3676,7 @@ paths:
         required: true
         schema:
           type: string
+          example: easy
       responses:
         '200':
           description: Ok
@@ -3636,6 +3720,7 @@ paths:
         required: true
         schema:
           type: integer
+          example: 1
       responses:
         '200':
           description: Ok
@@ -3727,6 +3812,7 @@ paths:
               properties:
                 name_key:
                   type: string
+                  example: exercise
       responses:
         '200':
           description: Ok
@@ -3815,6 +3901,7 @@ paths:
         required: true
         schema:
           type: string
+          example: exercise
       responses:
         '200':
           description: Ok
@@ -3856,6 +3943,7 @@ paths:
         required: true
         schema:
           type: string
+          example: exercise
       responses:
         '200':
           description: Ok
@@ -3894,6 +3982,7 @@ paths:
         required: true
         schema:
           type: integer
+          example: 1
       responses:
         '200':
           description: Ok
@@ -3935,6 +4024,7 @@ paths:
         required: true
         schema:
           type: integer
+          example: 1
       responses:
         '200':
           description: Ok
@@ -4180,8 +4270,10 @@ components:
             example: 1
         author_id:
           type: string
+          example: 0b870676-1a01-47aa-8402-859fb9806238
         difficulty_id:
           type: integer
+          example: 1
     Lecture:
       type: object
       properties:
@@ -4226,7 +4318,7 @@ components:
           example: 1
         name_key:
           type: string
-          example: hard
+          example: easy
     TaskType:
       type: object
       properties:
