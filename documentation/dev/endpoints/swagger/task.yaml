@@ -3534,6 +3534,11 @@ paths:
       parameters:
       - name: Authorization
         in: header
+        required: false
+        schema:
+          type: string
+      - name: X-ServiceToken
+        in: header
         required: true
         schema:
           type: string
@@ -3575,6 +3580,11 @@ paths:
       parameters:
       - name: Authorization
         in: header
+        required: false
+        schema:
+          type: string
+      - name: X-ServiceToken
+        in: header
         required: true
         schema:
           type: string
@@ -3612,6 +3622,11 @@ paths:
         - write
       parameters:
       - name: Authorization
+        in: header
+        required: false
+        schema:
+          type: string
+      - name: X-ServiceToken
         in: header
         required: true
         schema:
@@ -3653,6 +3668,11 @@ paths:
         - write
       parameters:
       - name: Authorization
+        in: header
+        required: false
+        schema:
+          type: string
+      - name: X-ServiceToken
         in: header
         required: true
         schema:
