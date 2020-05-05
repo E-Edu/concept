@@ -1,4 +1,4 @@
-[Home](../../README.md) > Changelog
+[Home](../../README.md) > Changelog > [Meeting Changelog](changelog-meeting.md)
 
 # Conept Meeting - 20. April 2020
 

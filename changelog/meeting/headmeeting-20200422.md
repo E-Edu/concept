@@ -1,4 +1,4 @@
-[Home](../../README.md) > Changelog
+[Home](../../README.md) > Changelog > [Meeting Changelog](changelog-meeting.md)
 
 # Head Meeting - 22. April 2020
 
